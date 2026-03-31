@@ -1,48 +1,76 @@
 <template>
   <div class="lecture-card" @click="handleClick">
     <div class="lecture-number">{{ index }}</div>
-    <div class="lecture-title">{{ truncatedTitle }}</div>
+    <div class="lecture-title" v-html="highlightedTitle"></div>
+    <p v-if="lecture.snippet" v-html="highlightedSnippet" class="lecture-snippet"></p>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'LectureCard',
   props: {
     lecture: { type: Object, required: true },
-    index: { type: Number, required: true }
+    index: { type: Number, required: true },
+    searchQuery: { type: String, default: '' }
   },
   computed: {
-    truncatedTitle() {
-      const title = this.lecture.NAME
-      return title.length > 50 ? title.slice(0, 50) + '...' : title
+    highlightedTitle() {
+      const title = this.lecture.NAME || this.lecture.name || 'Без названия'
+      if (!this.searchQuery) return title
+      const regex = new RegExp(`(${this.escapeRegExp(this.searchQuery)})`, 'gi')
+      return title.replace(regex, '<mark>$1</mark>')
+    },
+    highlightedSnippet() {
+      if (!this.lecture.snippet || !this.searchQuery) return this.lecture.snippet || ''
+      const regex = new RegExp(`(${this.escapeRegExp(this.searchQuery)})`, 'gi')
+      return this.lecture.snippet.replace(regex, '<mark>$1</mark>')
     }
   },
   methods: {
     handleClick() {
-      this.$emit('click', this.lecture)
+      const lectureId = this.lecture.ID || this.lecture.id || 0
+      const lectureIndex = Number(this.index) || 1
       this.$router.push({
         name: 'lecture',
-        params: {
-          lectureId: this.lecture.ID,
-          lectureIndex: this.index
-        }
+        params: { lectureIndex, lectureId }
       })
+    },
+    escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     }
   }
 }
 </script>
 
 <style scoped>
+.lecture-snippet {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 4px;
+}
+
+mark {
+  background-color: yellow;
+  color: black;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+</style>
+
+
+<style scoped>
 .lecture-card {
   display: flex;
   align-items: center;
-  background: #00bfff67;
+  background: #00bfff28;
   border-radius: 12px;
   cursor: pointer;
   padding: 18px 20px;
   transition: all 0.2s ease;
   gap: 20px;
   border: 1px solid transparent;
+  width: 400px;
 }
 
 .lecture-card:hover {

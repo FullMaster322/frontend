@@ -10,29 +10,48 @@ export default {
     return {
       lecture: null,
       loading: true,
+      showLoader: false,
+      isLoaded: false,
       error: null
     }
   },
   async mounted() {
+    const timer = setTimeout(() => {
+      if (!this.isLoaded) {
+        this.showLoader = true
+      }
+    }, 500)
+
     try {
-      this.lecture = await lectureService.getById(this.lectureId)
+      const data = await lectureService.getById(this.lectureId)
+      this.lecture = data
     } catch (err) {
       this.error = 'Ошибка загрузки'
       console.error(err)
     } finally {
       this.loading = false
+      this.isLoaded = true
+      clearTimeout(timer)
     }
   }
 }
 </script>
 
 <template>
-  <div v-if="loading">Загрузка лекции...</div>
+  <div v-if="!isLoaded">
+    <span v-if="showLoader">Загрузка лекции...</span>
+  </div>
+
   <div v-else-if="error">{{ error }}</div>
+
   <div v-else-if="!lecture">Нет данной лекции</div>
+
+  <!-- ✅ успех -->
   <div v-else class="lecture-container">
     <div class="lecture">
-      <h2 class="lecture-title">Лекция №{{ lectureIndex }}: {{ lecture.NAME }}</h2>
+      <h2 class="lecture-title">
+        Лекция №{{ lectureIndex }}: {{ lecture.NAME }}
+      </h2>
       <p class="lecture-description" v-html="lecture.DESCRIPTION"></p>
     </div>
   </div>
