@@ -8,7 +8,7 @@
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
       />
-      <button class="search-btn fas fa-search"></button>
+
     </div>
   </div>
 </template>
@@ -22,7 +22,8 @@ export default {
       default: ''
     }
   },
-  emits: ['update:modelValue']
+  emits: ['update:modelValue'],
+
 }
 </script>
 
@@ -31,8 +32,8 @@ export default {
   display: flex;
   align-items: center;
 
-  width: 320px;
-  height: 72px;
+  width: 450px;
+
   margin-left: 5px;
 
   position: relative;
@@ -50,7 +51,7 @@ export default {
 }
 
 .search-input {
-  width: 295px;
+  width: 470px;
   padding: 0 0 10px 20px;
 
   font-size: 15px;
@@ -79,11 +80,6 @@ export default {
   border: 1px solid rgba(48, 48, 48, 0);
   border-radius: 15px;
   margin-right: 10px;
-}
-
-/* Фокус */
-.search-bar-mega:focus-within {
-  background-color: white;
 }
 
 .search-bar-mega:focus-within .search-input,

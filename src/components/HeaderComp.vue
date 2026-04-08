@@ -1,94 +1,122 @@
 <template>
   <header class="header" :style="{ paddingRight: scrollbarWidth + 'px' }">
-    <nav class="nav">
-      <span
-        v-for="item in navItems"
-        :key="item.path"
-        :class="{ active: activeSection === item.section }"
-        @click="navigate(item.path)"
-        class="nav-item"
-      >
-        {{ item.label }}
-      </span>
-    </nav>
+    <div class="header-inner">
+      <div class="center-wrap">
+        <div class="center-content">
+          <transition name="fade-slide" mode="out-in">
+            <SearchPage v-if="isSearch" key="search" ref="searchPage"/>
+
+            <nav v-else key="nav" class="nav">
+              <span
+                v-for="item in navItems"
+                :key="item.path"
+                :class="{ active: $route.name === item.path }"
+                @click="go(item.path)"
+                class="nav-item"
+              >
+                {{ item.label }}
+              </span>
+            </nav>
+          </transition>
+        </div>
+
+        <button class="search-toggle" @click="toggleSearch">
+          <span v-if="!isSearch" class="search-btn fas fa-search"></span>
+          <span v-else class="search-btn fas fa-close"></span>
+        </button>
+      </div>
+    </div>
   </header>
 </template>
 
 <script>
+import SearchPage from './SearchPage.vue'
+
 export default {
-  name: 'HeaderComponent',
+  components: { SearchPage },
+
   data() {
     return {
-      activeSection: null,
+      isSearch: false,
       scrollbarWidth: 0,
+
       navItems: [
-        { label: 'Главная', path: 'home', section: 'home' },
-        { label: 'Лекции', path: 'lectures', section: 'lectures' },
-        { label: 'Калькулятор формул', path: 'calculator', section: 'calculator' },
-        { label: 'Проверь себя', path: 'tests', section: 'tests' }
+        { label: 'Главная', path: 'home' },
+        { label: 'Лекции', path: 'lectures' },
+        { label: 'Калькулятор формул', path: 'calculator' },
+        { label: 'Проверь себя', path: 'tests' }
       ]
-    };
+    }
   },
+
   methods: {
-    navigate(routeName) {
-      this.$router.push({ name: routeName });
+    go(name) {
+      this.$router.push({ name })
     },
-    updateActiveFromRoute(route) {
-      const path = route.path;
 
-      const activeItem = this.navItems.find(item => path.includes(`/${item.path}`)) ||
-                        (path === '/' && this.navItems.find(item => item.path === 'home'));
-
-      this.activeSection = activeItem ? activeItem.section : null;
+    toggleSearch() {
+      this.isSearch = !this.isSearch
     },
-    getScrollbarWidth() {
-      const div = document.createElement('div');
-      div.style.overflowY = 'scroll';
-      div.style.width = '50px';
-      div.style.height = '50px';
-      div.style.visibility = 'hidden';
-      document.body.appendChild(div);
-      const scrollbarWidth = div.offsetWidth - div.clientWidth;
-      document.body.removeChild(div);
-      return scrollbarWidth;
+
+    calcScrollbar() {
+      const div = document.createElement('div')
+      div.style.cssText = 'overflow:scroll;width:50px;height:50px;visibility:hidden;position:absolute'
+      document.body.appendChild(div)
+
+      const width = div.offsetWidth - div.clientWidth
+      document.body.removeChild(div)
+
+      return width
     }
   },
-  watch: {
-    $route(to) {
-      this.updateActiveFromRoute(to);
-    }
-  },
+
   mounted() {
-    this.updateActiveFromRoute(this.$route);
-    this.scrollbarWidth = this.getScrollbarWidth();
+    this.scrollbarWidth = this.calcScrollbar()
 
-    // Обновляем ширину при изменении размера окна
-    window.addEventListener('resize', () => {
-      this.scrollbarWidth = this.getScrollbarWidth();
-    });
+    this.onResize = () => {
+      this.scrollbarWidth = this.calcScrollbar()
+    }
+
+    this.onKey = (e) => {
+      if (e.key === 'Escape') this.isSearch = false
+    }
+
+    window.addEventListener('resize', this.onResize)
+    window.addEventListener('keydown', this.onKey)
   },
+
   beforeUnmount() {
-    window.removeEventListener('resize', this.scrollbarWidth);
-  }
-};
+    window.removeEventListener('resize', this.onResize)
+    window.removeEventListener('keydown', this.onKey)
+  },
+}
 </script>
 
 <style scoped>
 .header {
   width: 100%;
+  height: 60px;
   background: rgba(20, 25, 35, 0.6);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  z-index: 9999;
-  text-align: center;
   position: fixed;
   top: 0;
   left: 0;
-  box-sizing: border-box; /* Добавьте это */
+  z-index: 9999;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 20px;
 }
 
 .nav {
-  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 40px;
 }
 
 .nav-item {
@@ -96,12 +124,6 @@ export default {
   color: rgb(212, 212, 212);
   transition: 0.2s;
   font-size: 16px;
-  padding: 8px 12px;
-  font-family: inherit;
-}
-
-.nav-item:not(:first-child) {
-  margin-left: 25px;
 }
 
 .nav-item:hover {
@@ -113,18 +135,76 @@ export default {
   border-bottom: 2px solid #00bfff;
 }
 
+.search-toggle {
+  font-size: 22px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: none;
+  color: rgb(212, 212, 212);
+  transition: 0.2s;
+}
+
+.search-toggle:hover {
+  color: white;
+}
+
+.search-wrapper {
+  width: 500px;
+}
+
 @media (max-width: 768px) {
   .nav {
-    padding: 15px 0;
+    gap: 12px;
   }
 
   .nav-item {
     font-size: 14px;
-    padding: 6px 8px;
   }
 
-  .nav-item:not(:first-child) {
-    margin-left: 15px;
+  .search-wrapper {
+    width: 100%;
+    padding: 0 10px;
   }
+}
+
+.header-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.center-wrap {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.center-content {
+  width: 500px;
+  display: flex;
+  justify-content: center;
+}
+
+.nav {
+  display: flex;
+  gap: 30px;
+}
+
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.25s ease;
+}
+
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
 }
 </style>

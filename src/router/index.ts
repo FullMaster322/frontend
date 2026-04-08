@@ -3,7 +3,7 @@ import home from '../views/home.vue'
 import tests from '../views/tests.vue'
 import calculator from '../views/calculator.vue'
 import lectures from '../views/lectures.vue'
-import lecture from '../views/lecture.vue'
+import lecture from '../views/lecture.vue' // используем существующий компонент
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,11 +33,10 @@ const router = createRouter({
     {
       path: '/lecture/:lectureIndex/:lectureId?',
       name: 'lecture',
-      component: () => lecture,
+      component: lecture, // используем существующий компонент
       props: true
     }
   ],
 })
 
 export default router
-

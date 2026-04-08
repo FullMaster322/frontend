@@ -1,12 +1,10 @@
 <script>
 import Lectures from "../components/LecturesComp.vue"
-import SearchComp from "../components/SearchComp.vue"
 
 export default {
   name: 'lectures',
   components: {
-    Lectures,
-    SearchComp
+    Lectures
   }
 }
 </script>
