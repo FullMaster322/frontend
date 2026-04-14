@@ -32,7 +32,7 @@ export default {
   display: flex;
   align-items: center;
 
-  width: 450px;
+  width: 480px;
 
   margin-left: 5px;
 
@@ -45,8 +45,8 @@ export default {
   display: flex;
   align-items: center;
 
-  background-color: rgba(48, 48, 48, 0.385);
-  border: 1px solid rgba(48, 48, 48, 0.385);
+  background-color: rgb(48, 48, 48);
+  border: 1px solid rgb(48, 48, 48);
   border-radius: 10px;
 }
 
@@ -59,8 +59,9 @@ export default {
 
   background-color: rgba(48, 48, 48, 0);
   border: 1px solid rgba(48, 48, 48, 0);
-  border-radius: 15px;
+  border-radius: 10px;
   padding-top: 10px;
+  color: white;
 }
 
 .search-input::placeholder {
@@ -87,13 +88,14 @@ export default {
   background-color: white;
   border-color: transparent;
   outline: none;
+  color: black;
+  border-color: white;
 }
 
 .search-dropdown {
   position: fixed;
   top: 60px;
   width: 350px;
-
   background-color: white;
 
   visibility: hidden;

@@ -96,7 +96,7 @@ export default {
 .header {
   width: 100%;
   height: 60px;
-  background: rgba(20, 25, 35, 0.6);
+  background: rgba(34, 34, 34, 0.614);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   position: fixed;
@@ -131,8 +131,8 @@ export default {
 }
 
 .nav-item.active {
-  color: #00bfff;
-  border-bottom: 2px solid #00bfff;
+  color: #00da66;
+  border-bottom: 2px solid #00da66;
 }
 
 .search-toggle {

@@ -37,29 +37,24 @@ body {
 }
 
 .main-content {
-  padding-top: 80px;
   min-height: 100vh;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h2, h3, h4, h5, h6 {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
 
 h1 {
-  font-size: 2.8rem;
-  background: linear-gradient(120deg, #ffffff, #60a5fa, #a78bfa);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  margin-bottom: 1rem;
+
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: bold;
 }
 
 h2 {
   font-size: 2rem;
   color: #ffffff;
-  border-left: 3px solid #60a5fa;
   padding-left: 1rem;
   margin: 1.5rem 0 1rem;
 }
