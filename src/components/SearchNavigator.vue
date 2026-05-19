@@ -14,7 +14,7 @@
 <script>
 export default {
   props: {
-    htmlRoot: Object, // ссылка на контейнер где ищем
+    htmlRoot: Object,
     search: String
   },
 
@@ -133,8 +133,9 @@ export default {
   position: fixed;
   right: 20px;
   top: 80px;
-  background-color: white;
+  background-color: rgb(8, 150, 77);
   display: block;
+  z-index: 9999;
 }
 .button-container div {
   right: 20px;

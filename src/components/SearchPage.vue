@@ -80,6 +80,7 @@ export default {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0.2s ease;
+  border: 2px solid #262626;
 }
 
 .search-bar-wrapper:focus-within .lectures-list {

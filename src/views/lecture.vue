@@ -14,8 +14,7 @@
     />
 
     <div class="lecture">
-      <h2 class="lecture-title" v-html="highlightedTitle"></h2>
-      <p class="lecture-description" v-html="highlightedDescription"></p>
+      <div v-html="highlightedDescription" style="transform: scale(1.35); margin-top: 0px; margin-left: 0px;"></div>
     </div>
   </div>
 </template>
@@ -47,16 +46,6 @@ export default {
   },
 
   computed: {
-    highlightedTitle() {
-      if (!this.lecture) return ''
-
-      const title = `Лекция №${this.lectureIndex}: ${this.lecture.NAME || 'Без названия'}`
-      if (!this.search) return title
-
-      const regex = new RegExp(`(${this.escapeRegExp(this.search)})`, 'gi')
-      return title.replace(regex, '<mark>$1</mark>')
-    },
-
     highlightedDescription() {
       if (!this.lecture?.DESCRIPTION) return ''
 
@@ -103,41 +92,23 @@ export default {
 </script>
 
 <style scoped>
+
 mark {
-  background-color: #ffd54f;
+  background-color: #42fcf6;
   color: #000;
   padding: 0 2px;
   border-radius: 2px;
 }
-
-
-.lecture-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.lecture-description {
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-
 .lecture-container {
-  padding-top: 80px;
-  max-width: 1100px;
-  margin: 0 auto;
+  width: 950px;
+  margin-left: 220px;
+  margin-top: 100px;
+
+  padding-left: 20px;
+
 }
 .lecture {
-  text-align: left;
-}
-.lecture-description {
-  font-size: 16px;
-}
-.lecture-title {
-  font-weight: bold;
-  font-size: 26px;
+  padding-top: 00px;
+  padding: 20px;
 }
 </style>
-
-

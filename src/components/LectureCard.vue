@@ -1,6 +1,5 @@
 <template>
   <div class="lecture-card" @click="handleClick">
-    <div class="lecture-number">{{ index }}</div>
     <div class="lecture-content">
       <div class="lecture-title" v-html="highlightedTitle"></div>
       <p v-if="lecture.snippet" v-html="highlightedSnippet" class="lecture-snippet"></p>
@@ -78,6 +77,7 @@ export default {
   margin-bottom: 6px;
   line-height: 1.4;
   text-align: left;
+
 }
 
 .lecture-snippet {

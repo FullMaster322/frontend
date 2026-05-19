@@ -28,12 +28,9 @@ export default {
 }
 
 body {
-  background: #0a0f1a;
+  background: #ffffff;
   font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  color: #eef2ff;
-  line-height: 1.5;
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
+
 }
 
 .main-content {
@@ -89,6 +86,11 @@ ul, ol {
 li {
   margin: 0.5rem 0;
 }
+
+
+
+
+
 
 @media (max-width: 768px) {
   .main-content {

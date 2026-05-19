@@ -6,10 +6,9 @@
     <div v-else-if="!lectures.length">{{ emptyMessage }}</div>
     <div v-else class="lectures-list">
       <LectureCard class="lecture-card"
-  v-for="(lecture, i) in lectures"
+  v-for="(lecture) in lectures"
   :key="lecture.id"
   :lecture="lecture"
-  :index="i + 1"
   :search-query="search"
 />
     </div>
@@ -73,11 +72,13 @@ export default {
   max-width: 1200px;
   margin: 0 auto;
   margin-top: 80px;
+  padding: 20px;
 }
 
 .lectures-list {
   display: flex;
   gap: 10px;
+
 }
 
 .search-input {
@@ -89,11 +90,11 @@ export default {
   font-size: 14px;
 }
 .lecture-card {
-  color: #ccc;
-  background-color: rgba(102, 102, 102, 0.218);
+  background-color: #262626;
   transition: 0.15s;
+  color: white;
 }
 .lecture-card:hover {
-  background-color: rgba(102, 102, 102, 0.404);
+  background-color: #262626c3;
 }
 </style>
